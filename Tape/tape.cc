@@ -20,6 +20,11 @@ void Tape::MoveHead(char movement) {
     }
   } else if (movement == 'R') {
     ++headPosition_;
+  } else if (movement == 'S') { // Not necessary, but added for completeness
+    headPosition_ = headPosition_;
+  } else {
+    std::cerr << "Invalid movement\n";
+    exit(1);
   }
 }
 

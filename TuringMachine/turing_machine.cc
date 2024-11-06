@@ -109,8 +109,7 @@ bool TuringMachine::isAccepted(const std::string& input) {
     Symbol currentSymbol = tape_.GetSymbol();
     bool transitionFound = false;
     for (Transition transition : currentState.getTransitions()) {
-      if (transition.GetFromState() == currentState.getIdentifier() && 
-      (transition.GetCurrentSymbol() == currentSymbol || transition.GetCurrentSymbol() == blankSymbol_)) {
+      if (transition.GetFromState() == currentState.getIdentifier() && transition.GetCurrentSymbol() == currentSymbol) {
         currentState = *states_.find(State(transition.GetToState()));
         tape_.WriteSymbol(transition.GetToWriteSymbol());
         tape_.MoveHead(transition.GetMovement());
