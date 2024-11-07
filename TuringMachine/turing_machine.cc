@@ -56,6 +56,10 @@ TuringMachine::TuringMachine(const std::string& fileName) {
       case 5: {
         // Parsear el símbolo blanco
         blankSymbol_ = Symbol(line[0]);
+        if (!checkSymbol(blankSymbol_, tapeAlphabet_)) {
+          std::cerr << "Error: Símbolo blanco no encontrado en el alfabeto de cinta.\n";
+          exit(1);
+        }
         break;
       }
       case 6: {
@@ -99,6 +103,18 @@ TuringMachine::TuringMachine(const std::string& fileName) {
   for (State* state : auxiliarStates) {
     states_.insert(*state);
   }
+  if (!checkState(initialState_)) {
+    std::cerr << "Error: Estado inicial no encontrado en la lista de estados.\n";
+    exit(1);
+  }
+  for (State state : states_) {
+    for (Transition transition : state.getTransitions()) {
+      if (!checkTransition(transition)) {
+        std::cerr << "Error: Transición no válida.\n";
+        exit(1);
+      }
+    }
+  }
 }
 
 
@@ -108,10 +124,10 @@ bool TuringMachine::isAccepted(const std::string& input) {
   while (true) {
     Symbol currentSymbol = tape_.GetSymbol();
     bool transitionFound = false;
-    std::cout << tape_ << '\n';
+    // std::cout << tape_ << '\n';
     for (Transition transition : currentState.getTransitions()) {
       if (transition.GetFromState() == currentState.getIdentifier() && transition.GetCurrentSymbol() == currentSymbol) {
-        std::cout << "Transition: " << transition << '\n';
+        // std::cout << "Transition: " << transition << '\n';
         currentState = *states_.find(State(transition.GetToState()));
         tape_.WriteSymbol(transition.GetToWriteSymbol());
         tape_.MoveHead(transition.GetMovement());
@@ -128,3 +144,30 @@ bool TuringMachine::isAccepted(const std::string& input) {
   
 }
 
+bool TuringMachine::checkState(const std::string& stateIdentifier) const {
+  for (State state : states_) {
+    if (state.getIdentifier() == stateIdentifier) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool TuringMachine::checkSymbol(const Symbol& symbol, const Alphabet& alphabet) const {
+  for (Symbol symbolInAlphabet : alphabet.GetSymbols()) {
+    if (symbol == symbolInAlphabet) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool TuringMachine::checkMovement(const char movement) const {
+  return movement == 'L' || movement == 'R' || movement == 'S';
+}
+
+bool TuringMachine::checkTransition(const Transition& transition) const {
+  return (checkState(transition.GetFromState()) && checkState(transition.GetToState()) && 
+  checkSymbol(transition.GetCurrentSymbol(), tapeAlphabet_) && checkSymbol(transition.GetToWriteSymbol(), tapeAlphabet_) 
+  && checkMovement(transition.GetMovement()));
+}

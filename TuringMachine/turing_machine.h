@@ -23,6 +23,11 @@ class TuringMachine {
   std::string GetInitialState() const { return initialState_; }
   Symbol GetBlankSymbol() const { return blankSymbol_; }
 
+  bool checkState(const std::string& stateIdentifier) const;
+  bool checkSymbol(const Symbol& symbol, const Alphabet& alphabet) const;
+  bool checkTransition(const Transition& transition) const;
+  bool checkMovement(const char movement) const;
+
 
   
  private:
