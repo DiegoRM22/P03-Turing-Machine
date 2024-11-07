@@ -114,7 +114,7 @@ TuringMachine::TuringMachine(const std::string& fileName) {
   for (State state : states_) {
     for (Transition transition : state.getTransitions()) {
       if (!checkTransition(transition)) {
-        std::cerr << "Error: Transición no válida.\n";
+        std::cerr << "Error: Transición: " << transition << " no válida.\n";
         exit(1);
       }
     }
