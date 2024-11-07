@@ -11,8 +11,6 @@ Este proyecto implementa una **Máquina de Turing determinista** con las siguien
 
 ## Compilación
 
-Para compilar el proyecto, asegúrate de tener `g++` y ejecuta el siguiente comando en el directorio principal del proyecto:
-
 ```bash
 g++ -o turing Alphabet/alphabet.cc State/state.cc Symbol/symbol.cc Transition/transition.cc main.cc Tape/tape.cc TuringMachine/turing_machine.cc
 ```
