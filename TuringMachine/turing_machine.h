@@ -27,6 +27,7 @@ class TuringMachine {
   bool checkSymbol(const Symbol& symbol, const Alphabet& alphabet) const;
   bool checkTransition(const Transition& transition) const;
   bool checkMovement(const char movement) const;
+  bool CheckAlphabetsIntegrity() const;
 
 
   

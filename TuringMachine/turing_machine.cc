@@ -107,6 +107,10 @@ TuringMachine::TuringMachine(const std::string& fileName) {
     std::cerr << "Error: Estado inicial no encontrado en la lista de estados.\n";
     exit(1);
   }
+  if (!CheckAlphabetsIntegrity()) {
+    std::cerr << "Error: Alfabeto de entrada no contenido en el alfabeto de cinta.\n";
+    exit(1);
+  }
   for (State state : states_) {
     for (Transition transition : state.getTransitions()) {
       if (!checkTransition(transition)) {
@@ -170,4 +174,14 @@ bool TuringMachine::checkTransition(const Transition& transition) const {
   return (checkState(transition.GetFromState()) && checkState(transition.GetToState()) && 
   checkSymbol(transition.GetCurrentSymbol(), tapeAlphabet_) && checkSymbol(transition.GetToWriteSymbol(), tapeAlphabet_) 
   && checkMovement(transition.GetMovement()));
+}
+
+bool TuringMachine::CheckAlphabetsIntegrity() const {
+  // Si está en el alfabeto de entrada, tiene que estar en el alfabeto de cinta
+  for (Symbol symbol : inputAlphabet_.GetSymbols()) {
+    if (!checkSymbol(symbol, tapeAlphabet_)) {
+      return false;
+    }
+  }
+  return true;
 }
