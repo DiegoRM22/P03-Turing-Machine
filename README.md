@@ -24,8 +24,6 @@ g++ -o turing Alphabet/alphabet.cc State/state.cc Symbol/symbol.cc Transition/tr
 
 ## Ejecución
 
-Para ejecutar el programa, utiliza el siguiente comando, proporcionando el archivo de configuración y las cadenas que deseas reconocer:
-
 ```bash
 ./turing examples/{fichero.txt} [cadenas a reconocer]
 ```
