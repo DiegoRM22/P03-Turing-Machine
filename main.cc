@@ -1,3 +1,14 @@
+/**
+  * Universidad de La Laguna
+  * Escuela Superior de Ingeniería y Tecnología
+  * Grado en Ingeniería Informática
+  * Complejidad Computacional P03
+  *
+  * @author Diego Rodríguez Martín
+  * @since 07/11/2024
+  * @brief programa principal que ejecuta la máquina de Turing.
+  *
+*/
 
 #include <iostream>
 

@@ -1,9 +1,25 @@
+/**
+  * Universidad de La Laguna
+  * Escuela Superior de Ingeniería y Tecnología
+  * Grado en Ingeniería Informática
+  * Complejidad Computacional P03
+  *
+  * @author Diego Rodríguez Martín
+  * @since 07/11/2024
+  * @brief Implementación de la clase TuringMachine.
+  *
+*/
 
 #include <fstream>
 #include <regex>
 
 #include "turing_machine.h"
 
+/**
+ * Constructor de la clase TuringMachine.
+ * @param fileName Nombre del archivo de configuración.
+ * @return TuringMachine
+ */
 TuringMachine::TuringMachine(const std::string& fileName) {
   std::ifstream file(fileName);
   std::string line;
@@ -121,7 +137,11 @@ TuringMachine::TuringMachine(const std::string& fileName) {
   }
 }
 
-
+/**
+ * Método que comprueba si una cadena es aceptada por la máquina de Turing.
+ * @param input Cadena de entrada.
+ * @return bool
+ */
 bool TuringMachine::isAccepted(const std::string& input) {
   tape_ = Tape(input, blankSymbol_);
   State currentState = *states_.begin();
@@ -148,6 +168,11 @@ bool TuringMachine::isAccepted(const std::string& input) {
   
 }
 
+/**
+ * Método que comprueba si un estado está en la lista de estados.
+ * @param stateIdentifier Identificador del estado.
+ * @return bool
+ */
 bool TuringMachine::checkState(const std::string& stateIdentifier) const {
   for (State state : states_) {
     if (state.getIdentifier() == stateIdentifier) {
@@ -157,6 +182,12 @@ bool TuringMachine::checkState(const std::string& stateIdentifier) const {
   return false;
 }
 
+/**
+ * Método que comprueba si un símbolo está en el alfabeto.
+ * @param symbol Símbolo a comprobar.
+ * @param alphabet Alfabeto en el que comprobar.
+ * @return bool
+ */
 bool TuringMachine::checkSymbol(const Symbol& symbol, const Alphabet& alphabet) const {
   for (Symbol symbolInAlphabet : alphabet.GetSymbols()) {
     if (symbol == symbolInAlphabet) {
@@ -166,16 +197,30 @@ bool TuringMachine::checkSymbol(const Symbol& symbol, const Alphabet& alphabet) 
   return false;
 }
 
+/**
+ * Método que comprueba si un movimiento es válido.
+ * @param movement Movimiento a comprobar.
+ * @return bool
+ */
 bool TuringMachine::checkMovement(const char movement) const {
   return movement == 'L' || movement == 'R' || movement == 'S';
 }
 
+/**
+ * Método que comprueba si una transición es válida.
+ * @param transition Transición a comprobar.
+ * @return bool
+ */
 bool TuringMachine::checkTransition(const Transition& transition) const {
   return (checkState(transition.GetFromState()) && checkState(transition.GetToState()) && 
   checkSymbol(transition.GetCurrentSymbol(), tapeAlphabet_) && checkSymbol(transition.GetToWriteSymbol(), tapeAlphabet_) 
   && checkMovement(transition.GetMovement()));
 }
 
+/**
+ * Método que comprueba si los alfabetos son coherentes.
+ * @return bool
+ */
 bool TuringMachine::CheckAlphabetsIntegrity() const {
   // Si está en el alfabeto de entrada, tiene que estar en el alfabeto de cinta
   for (Symbol symbol : inputAlphabet_.GetSymbols()) {
